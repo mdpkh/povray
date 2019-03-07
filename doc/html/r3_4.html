@@ -585,6 +585,9 @@
   <td><div class="divh5"><a title="3.4.6.3.4.2" href="#r3_4_6_3_4_2">Specular Highlight</a></div></td>
 </tr>
 <tr>
+  <td><div class="divh5"><a title="3.4.6.3.4.2a" href="#r3_4_6_3_4_2a">Retro-Specular Highlight</a></div></td>
+</tr>
+<tr>
   <td><div class="divh5"><a title="3.4.6.3.4.3" href="#r3_4_6_3_4_3">Metallic Highlight Modifier</a></div></td>
 </tr>
 <tr>
@@ -8912,12 +8915,24 @@ finish { phong albedo 0.9 phong_size 60 }
 
 <p>The size of the spot is defined by the value given the <code>roughness</code> keyword. Typical values range from 1.0 (very rough - large highlight) to 0.0005 (very smooth - small highlight). The default value, if roughness is not specified, is 0.05 (plastic).</p>
 <p>It is possible to specify wrong values for <code>roughness</code> that will generate an error. Do not use 0! If you get errors, check to see if you are using a very, very small roughness value that may be causing the error.</p>
-<p>The optional keyword <code>albedo</code> can be used right after specular to specify that the parameter is to be taken as the total diffuse/specular reflectance, rather than peak reflectance.</p>
+<p>The optional keyword <code>albedo</code> can be used right after specular to specify that the parameter is to be taken as the total diffuse/specular/retro-specular reflectance, rather than peak reflectance.</p>
 <p>For example:</p>
 <pre>
 finish { specular albedo 0.9 roughness 0.02 }
 </pre>
 <p>If <code>specular</code> is not specified <code>roughness</code> has no effect.</p>
+<p class="Note"><strong>Note:</strong> When light is reflected by a surface such as a mirror, it is called <em>specular reflection</em> however such reflection is not controlled by the <code>specular</code> keyword. The <code>reflection</code> keyword controls mirror-like specular reflection.</p>
+
+</div>
+<div class="content-level-h6" contains="Retro-Specular Highlight" id="r3_4_6_3_4_2a">
+<h6>3.4.6.3.4.2a Retro-Specular Highlight</h6>
+<p>The <code>retro_specular</code> keyword in a <code>finish</code> statement produces a scattering of light primarily in directions near the direction of the light source. Examples of objects which might be modeled using this feature include nocturnal animal eyes, bicycle reflectors, and road signs.</p>
+<p>The <code>retro_specular</code> value is typically from 0.0 to 1.0, where 1.0 causes complete saturation to the light source's color when the object, light source, and camera are in a line. Retro-specular highlights pick up the diffuse color of the surface as well as the color of the light source.</p>
+
+<p>The size cone of light directed back towards the light source is defined by the value given the <code>retro_spread</code> keyword. Typical values range from --- (very rough - large highlight) to --- (very smooth - small highlight).</p>
+<p>It is possible to specify wrong values for <code>retro_spread</code> that will generate an error. Do not use 0! If you get errors, check to see if you are using a very, very small retro_spread value that may be causing the error.</p>
+<p>The optional keyword <code>albedo</code> can be used right after retro_specular to specify that the parameter is to be taken as the total diffuse/specular/retro-specular reflectance, rather than peak reflectance.</p>
+<p>If <code>retro_specular</code> is not specified <code>retro_spread</code> has no effect.</p>
 <p class="Note"><strong>Note:</strong> When light is reflected by a surface such as a mirror, it is called <em>specular reflection</em> however such reflection is not controlled by the <code>specular</code> keyword. The <code>reflection</code> keyword controls mirror-like specular reflection.</p>
 
 </div>
