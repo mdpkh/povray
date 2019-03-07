@@ -1187,6 +1187,7 @@ struct Finish_Struct
 {
 	SNGL Diffuse, DiffuseBack, RawDiffuse, RawDiffuseBack, Brilliance;
 	SNGL Specular, Roughness;
+	SNGL Retro_Specular, Retro_Spread;
 	SNGL Phong, Phong_Size;
 	SNGL Irid, Irid_Film_Thickness, Irid_Turb;
 	SNGL Temp_Caustics, Temp_IOR, Temp_Dispersion, Temp_Refract, Reflect_Exp;

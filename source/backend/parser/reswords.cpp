@@ -460,6 +460,8 @@ const RESERVED_WORD Reserved_Words[LAST_TOKEN] = {
 	{REL_NE_TOKEN, "!="},
 	{RENDER_TOKEN, "render"},
 	{REPEAT_TOKEN, "repeat"},
+	{RETRO_SPECULAR_TOKEN, "retro_specular"},
+	{RETRO_SPREAD_TOKEN, "retro_spread"},
 	{RGBFT_TOKEN, "rgbft"},
 	{RGBF_TOKEN, "rgbf"},
 	{RGBT_TOKEN, "rgbt"},

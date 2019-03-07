@@ -2436,7 +2436,29 @@ void Parser::Parse_Finish (FINISH **Finish_Ptr)
 				Warning(0, "Zero roughness used.");
 		END_CASE
 
-		CASE (METALLIC_TOKEN)
+			CASE(RETRO_SPECULAR_TOKEN)
+			EXPECT
+			CASE(ALBEDO_TOKEN)
+			specularAdjust = true;
+		END_CASE
+			OTHERWISE
+			UNGET
+			EXIT
+			END_CASE
+			END_EXPECT
+
+			New->Retro_Specular = Parse_Float();
+		END_CASE
+
+			CASE(RETRO_SPREAD_TOKEN)
+			New->Retro_Spread = Parse_Float();
+		if (New->Retro_Spread != 0.0)
+			New->Retro_Spread = 1.0 / New->Retro_Spread; /* CEY 12/92 */
+		else
+			Warning(0, "Zero roughness used.");
+		END_CASE
+
+			CASE (METALLIC_TOKEN)
 			New->Metallic = 1.0;
 			EXPECT
 				CASE_FLOAT
