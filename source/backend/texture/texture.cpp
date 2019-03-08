@@ -1159,6 +1159,8 @@ FINISH *Create_Finish()
 	New->Phong_Size         = 40.0;
 	New->Specular           = 0.0;
 	New->Roughness          = 1.0 / 0.05;
+	New->Retro_Specular     = 0.0;
+	New->Retro_Spread       = 1.0 / 0.002;
 
 	New->Crand = 0.0;
 

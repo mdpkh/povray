@@ -1412,7 +1412,7 @@ void Trace::ComputeDiffuseLight(const FINISH *finish, const Vector3d& ipoint, co
 	Vector3d reye;
 
 	// TODO FIXME - [CLi] why is this computed here? Not so exciting, is it?
-	if(finish->Specular != 0.0)
+	if(finish->Specular != 0.0 || finish->Retro_Specular != 0.0)
 		reye = -Vector3d(eye.Direction);
 
 	// global light sources, if not turned off for this object
@@ -1651,6 +1651,8 @@ void Trace::ComputeOneDiffuseLight(const LightSource &lightsource, const Vector3
 
 			if(finish->Specular > 0.0)
 				ComputeSpecularColour(finish, lightsourceray, reye, layer_normal, tmpCol, lightcolour, layer_pigment_colour);
+			if (finish->Retro_Specular > 0.0)
+				ComputeRetroSpecularColour(finish, lightsourceray, reye, layer_normal, tmpCol, lightcolour, layer_pigment_colour);
 		}
 
 		if(finish->Irid > 0.0)
@@ -2495,7 +2497,7 @@ void Trace::ComputePhongColour(const FINISH *finish, const Ray& lightsourceray, 
 }
 
 void Trace::ComputeSpecularColour(const FINISH *finish, const Ray& lightsourceray, const Vector3d& eye, const Vector3d& layer_normal, RGBColour& colour,
-                                  const RGBColour& light_colour, const RGBColour& layer_pigment_colour)
+	const RGBColour& light_colour, const RGBColour& layer_pigment_colour)
 {
 	double cos_angle_of_incidence, intensity, halfway_length;
 	Vector3d halfway;
@@ -2506,15 +2508,15 @@ void Trace::ComputeSpecularColour(const FINISH *finish, const Ray& lightsourcera
 
 	halfway_length = halfway.length();
 
-	if(halfway_length > 0.0)
+	if (halfway_length > 0.0)
 	{
 		cos_angle_of_incidence = dot(halfway, layer_normal) / halfway_length;
 
-		if(cos_angle_of_incidence > 0.0)
+		if (cos_angle_of_incidence > 0.0)
 		{
 			intensity = finish->Specular * pow(cos_angle_of_incidence, (double)finish->Roughness);
 
-			if(finish->Metallic > 0.0)
+			if (finish->Metallic > 0.0)
 			{
 				// Calculate the reflected color by interpolating between
 				// the light source color and the surface color according
@@ -2527,7 +2529,7 @@ void Trace::ComputeSpecularColour(const FINISH *finish, const Ray& lightsourcera
 				f = 0.014567225 / Sqr(x - 1.12) - 0.011612903;
 
 				f = min(1.0, max(0.0, f));
-				cs = light_colour * ( RGBColour(1.0) + (finish->Metallic * (1.0 - f)) * (layer_pigment_colour - RGBColour(1.0)) );
+				cs = light_colour * (RGBColour(1.0) + (finish->Metallic * (1.0 - f)) * (layer_pigment_colour - RGBColour(1.0)));
 
 				colour += intensity * cs;
 			}
@@ -2535,6 +2537,19 @@ void Trace::ComputeSpecularColour(const FINISH *finish, const Ray& lightsourcera
 				colour += intensity * light_colour;
 		}
 	}
+}
+
+void Trace::ComputeRetroSpecularColour(const FINISH *finish, const Ray& lightsourceray, const Vector3d& eye, const Vector3d& layer_normal, RGBColour& colour,
+	const RGBColour& light_colour, const RGBColour& layer_pigment_colour)
+{
+	double cos_angle_of_incidence, intensity;
+
+	cos_angle_of_incidence = 0.5 * dot(Vector3d(lightsourceray.Direction), eye) + 0.5;
+	cos_angle_of_incidence *= cos_angle_of_incidence;
+
+	intensity = finish->Retro_Specular * pow(cos_angle_of_incidence, (double)finish->Retro_Spread)  * dot(Vector3d(lightsourceray.Direction), layer_normal);
+
+	colour += intensity * light_colour * layer_pigment_colour;
 }
 
 void Trace::ComputeRelativeIOR(const Ray& ray, const Interior* interior, double& ior)

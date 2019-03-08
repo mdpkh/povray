@@ -619,7 +619,26 @@ class Trace
 		void ComputeSpecularColour(const FINISH *finish, const Ray& lightsourceray, const Vector3d& eye, const Vector3d& layer_normal, RGBColour& colour,
 		                           const RGBColour& light_colour, const RGBColour& layer_pigment_colour);
 
-	/**
+		/**
+		*  Compute the retro-specular highlight contribution of a finish illuminated by light from a given direction.
+		*
+		*  Computation uses a modification of the Blinn-Phong highlight model
+		*
+		*  @remark     The model used is @e not energy-conserving
+		*  @remark     The computed contribution is @e added to the value passed in @c colour.
+		*
+		*  @param[in]      finish              finish
+		*  @param[in]      lightsourceray      ray from intersection to light source
+		*  @param[in]      eye                 vector from intersection to observer
+		*  @param[in]      layer_normal        effective (possibly pertubed) surface normal
+		*  @param[in,out]  colour              effective surface colour
+		*  @param[in]      light_colour        effective light colour
+		*  @param[in]      layer_pigment_colour  nominal pigment colour
+		*/
+		void ComputeRetroSpecularColour(const FINISH *finish, const Ray& lightsourceray, const Vector3d& eye, const Vector3d& layer_normal, RGBColour& colour,
+			const RGBColour& light_colour, const RGBColour& layer_pigment_colour);
+
+		/**
 	 *  @}
 	 *
 	 ***************************************************************************************************************
