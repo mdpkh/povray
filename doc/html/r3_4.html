@@ -585,10 +585,10 @@
   <td><div class="divh5"><a title="3.4.6.3.4.2" href="#r3_4_6_3_4_2">Specular Highlight</a></div></td>
 </tr>
 <tr>
-  <td><div class="divh5"><a title="3.4.6.3.4.2a" href="#r3_4_6_3_4_2a">Retro-Specular Highlight</a></div></td>
+  <td><div class="divh5"><a title="3.4.6.3.4.3" href="#r3_4_6_3_4_3">Retro-Specular Highlight</a></div></td>
 </tr>
 <tr>
-  <td><div class="divh5"><a title="3.4.6.3.4.3" href="#r3_4_6_3_4_3">Metallic Highlight Modifier</a></div></td>
+  <td><div class="divh5"><a title="3.4.6.3.4.4" href="#r3_4_6_3_4_4">Metallic Highlight Modifier</a></div></td>
 </tr>
 <tr>
   <td><div class="divh4"><a title="3.4.6.3.5" href="#r3_4_6_3_5">Specular Reflection</a></div></td>
@@ -8913,9 +8913,9 @@ finish { phong albedo 0.9 phong_size 60 }
 <p>The <code>specular</code> keyword in a <code>finish</code> statement produces a highlight which is very similar to phong highlighting but it uses slightly different model. The specular model more closely resembles real specular reflection and provides a more credible spreading of the highlights occurring near the object horizons.</p>
 <p>The <code>specular</code> value is typically from 0.0 to 1.0, where 1.0 causes complete saturation to the light source's color at the brightest area (center) of the highlight. The default value is 0.0 and gives no highlight.</p>
 
-<p>The size of the spot is defined by the value given the <code>roughness</code> keyword. Typical values range from 1.0 (very rough - large highlight) to 0.0005 (very smooth - small highlight). The default value, if roughness is not specified, is 0.05 (plastic).</p>
+<p>The size of the spot is defined by the value given the <code>roughness</code> keyword. Typical values range from 0.05 (very rough - large highlight) to 0.0005 (very smooth - small highlight). The default value, if roughness is not specified, is 0.05 (plastic).</p>
 <p>It is possible to specify wrong values for <code>roughness</code> that will generate an error. Do not use 0! If you get errors, check to see if you are using a very, very small roughness value that may be causing the error.</p>
-<p>The optional keyword <code>albedo</code> can be used right after specular to specify that the parameter is to be taken as the total diffuse/specular/retro-specular reflectance, rather than peak reflectance.</p>
+<p>The optional keyword <code>albedo</code> can be used right after specular to specify that the parameter is to be taken as the total diffuse/specular/retro-specular reflectance, rather than peak reflectance. </p>
 <p>For example:</p>
 <pre>
 finish { specular albedo 0.9 roughness 0.02 }
@@ -8924,23 +8924,22 @@ finish { specular albedo 0.9 roughness 0.02 }
 <p class="Note"><strong>Note:</strong> When light is reflected by a surface such as a mirror, it is called <em>specular reflection</em> however such reflection is not controlled by the <code>specular</code> keyword. The <code>reflection</code> keyword controls mirror-like specular reflection.</p>
 
 </div>
-<div class="content-level-h6" contains="Retro-Specular Highlight" id="r3_4_6_3_4_2a">
-<h6>3.4.6.3.4.2a Retro-Specular Highlight</h6>
+<div class="content-level-h6" contains="Retro-Specular Highlight" id="r3_4_6_3_4_3">
+<h6>3.4.6.3.4.3 Retro-Specular Highlight</h6>
 <p>The <code>retro_specular</code> keyword in a <code>finish</code> statement produces a scattering of light primarily in directions near the direction of the light source. Examples of objects which might be modeled using this feature include nocturnal animal eyes, bicycle reflectors, and road signs.</p>
-<p>The <code>retro_specular</code> value is typically from 0.0 to 1.0, where 1.0 causes complete saturation to the light source's color when the object, light source, and camera are in a line. Retro-specular highlights pick up the diffuse color of the surface as well as the color of the light source.</p>
-
-<p>The size cone of light directed back towards the light source is defined by the value given the <code>retro_spread</code> keyword. Typical values range from --- (very rough - large highlight) to --- (very smooth - small highlight).</p>
+<p>The <code>retro_specular</code> value is typically from 0.0 to perhaps hundreds, where a large value causes an obvious increase in the object's brightness when the object, light source, and camera are in a line. Realistic values will vary depending on the value of <code>retro_spread</code> and the brightness of the object's diffuse color. Retro-specular highlights pick up the diffuse color of the surface as well as the color of the light source.</p>
+<p>The size cone of light directed back towards the light source is defined by the value given the <code>retro_spread</code> keyword. Typical values range from 0.1 (light broadly spread vaguely in the direction of the source) to 0.00001 (very tightly focused retroreflected light). The default value, if retro_spread is not specified, is 0.002.</p>
 <p>It is possible to specify wrong values for <code>retro_spread</code> that will generate an error. Do not use 0! If you get errors, check to see if you are using a very, very small retro_spread value that may be causing the error.</p>
-<p>The optional keyword <code>albedo</code> can be used right after retro_specular to specify that the parameter is to be taken as the total diffuse/specular/retro-specular reflectance, rather than peak reflectance.</p>
+<p>The optional keyword <code>albedo</code> can be used right after retro_specular to specify that the parameter is to be taken as the total diffuse/specular/retro-specular reflectance, rather than peak reflectance. (not yet implemented)</p>
 <p>If <code>retro_specular</code> is not specified <code>retro_spread</code> has no effect.</p>
 <p class="Note"><strong>Note:</strong> When light is reflected by a surface such as a mirror, it is called <em>specular reflection</em> however such reflection is not controlled by the <code>specular</code> keyword. The <code>reflection</code> keyword controls mirror-like specular reflection.</p>
 
 </div>
-<a name="r3_4_6_3_4_3"></a>
-<div class="content-level-h6" contains="Metallic Highlight Modifier" id="r3_4_6_3_4_3">
-<h6>3.4.6.3.4.3 Metallic Highlight Modifier</h6>
+<a name="r3_4_6_3_4_4"></a>
+<div class="content-level-h6" contains="Metallic Highlight Modifier" id="r3_4_6_3_4_4">
+<h6>3.4.6.3.4.4 Metallic Highlight Modifier</h6>
 <p>The keyword <code>metallic</code> may be used with <code>phong</code> or <code>specular</code> highlights. This keyword indicates that the color of the highlights will be calculated by an empirical function that models the reflectivity of metallic
-surfaces.</p>
+surfaces. This modifier has no effect on <code>retro-specular</code> highlights.</p>
 <p>Normally highlights are the color of the light source. Adding this keyword filters the highlight so that white light reflected from a metallic surface takes the color specified by the pigment</p>
 <p>The <code>metallic</code> keyword may optionally be follow by a numeric value to specify the influence the amount of the effect. If no keyword is specified, the default value is zero. If the keyword is specified without a value, the default value is 1.</p>
 <p>For example:</p>
