@@ -622,7 +622,7 @@ class Trace
 		/**
 		*  Compute the retro-specular highlight contribution of a finish illuminated by light from a given direction.
 		*
-		*  Computation uses a modification of the Blinn-Phong highlight model
+		*  Computation uses a model which borrows slightly from the Blinn-Phong highlight model
 		*
 		*  @remark     The model used is @e not energy-conserving
 		*  @remark     The computed contribution is @e added to the value passed in @c colour.

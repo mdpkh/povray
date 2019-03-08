@@ -1794,6 +1794,9 @@ void Trace::ComputeFullAreaDiffuseLight(const LightSource &lightsource, const Ve
 
 				if(finish->Specular > 0.0)
 					ComputeSpecularColour(finish, lsr, reye, layer_normal, tmpCol, attenuatedLightcolour, layer_pigment_colour);
+
+				if (finish->Retro_Specular > 0.0)
+					ComputeRetroSpecularColour(finish, lsr, reye, layer_normal, tmpCol, attenuatedLightcolour, layer_pigment_colour);
 			}
 
 			if(finish->Irid > 0.0)
